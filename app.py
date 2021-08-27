@@ -4,10 +4,10 @@ import hashlib
 import mysql.connector
 
 app = Flask(__name__)
-con = mysql.connector.connect(host='remotemysql.com',database='cVLw2NAjNX',user='cVLw2NAjNX',password='7I3RP65o9I')
 
 @app.route('/generatetoken',methods=['GET'])
 def generateToken():
+    con = mysql.connector.connect(host='remotemysql.com',database='cVLw2NAjNX',user='cVLw2NAjNX',password='7I3RP65o9I')
     cursor = con.cursor()
     query = "Insert into tokens (client_id, token) values (%s,%s)"
     k = random.randint(0,199999)
@@ -17,12 +17,14 @@ def generateToken():
     cursor.execute(query, data)
     con.commit()
     cursor.close()
+    con.close()
     print(token)
     return token
 @app.route('/createclient',methods=['GET'])
 def createClient():
+    con = mysql.connector.connect(host='remotemysql.com',database='cVLw2NAjNX',user='cVLw2NAjNX',password='7I3RP65o9I')
     cursor = con.cursor()
-    query = "Insert into tokens (emp_id, client_id) values (%s,%s)"
+    query = "Insert into oAuth (emp_id, client_id) values (%s,%s)"
     k = random.randint(0,19999)
     s = str(k)
     client = hashlib.sha256(s.encode()).hexdigest()
@@ -30,6 +32,7 @@ def createClient():
     cursor.execute(query, data)
     con.commit()
     cursor.close()
+    con.close()
     return client    
 
 if __name__ == '__main__':

@@ -21,7 +21,16 @@ def generateToken():
     return token
 @app.route('/createclient',methods=['GET'])
 def createClient():
-    
+    cursor = con.cursor()
+    query = "Insert into tokens (emp_id, client_id) values (%s,%s)"
+    k = random.randint(0,19999)
+    s = str(k)
+    client = hashlib.sha256(s.encode()).hexdigest()
+    data = (request.args.get('id'),client)
+    cursor.execute(query, data)
+    con.commit()
+    cursor.close()
+    return client    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=8090,debug=False)

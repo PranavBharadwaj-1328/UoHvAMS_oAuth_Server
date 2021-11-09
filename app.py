@@ -28,7 +28,7 @@ def signIn():
     cursor = con.cursor()
     emp_id = request.args.get('emp_id')
     name = request.args.get('name')
-    in_out = request.args.get('io')
+    in_out = request.args.get('in_out')
     query = "insert into Logs (emp_id, name, in_out) values (%s, %s, %s)"
     data = (emp_id, name, in_out,)
     cursor.execute(query, data)
@@ -46,7 +46,7 @@ def geoLog():
     emp_id = request.args.get('emp_id')
     name = request.args.get('name')
     loc_id = request.args.get('loc_id')
-    in_out = request.args.get('io')
+    in_out = request.args.get('in_out')
     query = "insert into Geo_logs (emp_id, name, loc_id, in_out) values (%s, %s, %s, %s)"
     data = (emp_id, name, loc_id, in_out, )
     cursor.execute(query, data)
@@ -56,6 +56,7 @@ def geoLog():
     print("logged at ",loc_id)
     return loc_id
 
+#TODO: Make it work
 @app.route('/checkemp',methods=['GET'])
 def checkEmp():
     con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams',user='phpmyadmin', password='passwd@123')
@@ -64,9 +65,25 @@ def checkEmp():
     data = (request.args.get('id'),)
     cursor.execute(query, data)
     rows = cursor.fetchall()
-    print(rows)
-    return rows
-    
+    if(len(rows) != 0):
+        return "Old User"
+    else:
+        return "New User"
+
+@app.route('/getname',methods=['GET'])
+def getName():
+    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams',user='phpmyadmin', password='passwd@123')
+    cursor = con.cursor()
+    query = "select * from User_table where emp_id = %s"
+    data = (request.args.get('id'),)
+    cursor.execute(query, data)
+    rows = cursor.fetchone()
+    if(rows):
+        print(rows[2])
+        return rows[2]
+    else:
+        return "New User"
+
 @app.route('/generatetoken',methods=['GET'])
 def generateToken():
     # con = mysql.connector.connect(host='remotemysql.com',database='cVLw2NAjNX',user='cVLw2NAjNX',password='7I3RP65o9I')

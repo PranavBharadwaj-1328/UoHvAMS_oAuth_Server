@@ -82,7 +82,7 @@ def getName():
         print(rows[2])
         return rows[2]
     else:
-        return "New User"
+        return
 
 @app.route('/generatetoken',methods=['GET'])
 def generateToken():

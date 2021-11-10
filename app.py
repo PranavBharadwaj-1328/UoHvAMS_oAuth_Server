@@ -8,8 +8,7 @@ app = Flask(__name__)
 
 @app.route('/signup', methods=['GET'])
 def signUp():
-    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in',
-                                  database='uohvams', user='phpmyadmin', password='passwd@123')
+    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams', user='phpmyadmin', password='passwd@123')
     cursor = con.cursor()
     emp_id = request.args.get('emp_id')
     name = request.args.get('name')
@@ -27,8 +26,7 @@ def signUp():
 
 @app.route('/signup_olduser', methods=['GET'])
 def signup_olduser():
-    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in',
-                                  database='uohvams', user='phpmyadmin', password='passwd@123')
+    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams', user='phpmyadmin', password='passwd@123')
     cursor = con.cursor()
     emp_id = request.args.get('emp_id')
     password = request.args.get('password')
@@ -45,8 +43,7 @@ def signup_olduser():
 
 @app.route('/signin', methods=['GET'])
 def signIn():
-    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in',
-                                  database='uohvams', user='phpmyadmin', password='passwd@123')
+    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams', user='phpmyadmin', password='passwd@123')
     cursor = con.cursor()
     emp_id = request.args.get('emp_id')
     name = request.args.get('name')
@@ -63,8 +60,7 @@ def signIn():
 
 @app.route('/geolog', methods=['GET'])
 def geoLog():
-    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in',
-                                  database='uohvams', user='phpmyadmin', password='passwd@123')
+    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams', user='phpmyadmin', password='passwd@123')
     cursor = con.cursor()
     emp_id = request.args.get('emp_id')
     name = request.args.get('name')
@@ -79,46 +75,39 @@ def geoLog():
     print("logged at ", loc_id)
     return loc_id
 
-# TODO: Make it work
-
-
-@app.route('/checkemp', methods=['GET'])
-def checkEmp():
-    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in',
-                                  database='uohvams', user='phpmyadmin', password='passwd@123')
-    cursor = con.cursor()
-    query = "select * from User_table where emp_id = %s"
-    data = (request.args.get('id'),)
-    cursor.execute(query, data)
-    rows = cursor.fetchall()
-    if(len(rows) != 0):
-        return "Old User"
-    else:
-        return "New User"
-
-
 @app.route('/getname', methods=['GET'])
 def getName():
-    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in',
-                                  database='uohvams', user='phpmyadmin', password='passwd@123')
+    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams', user='phpmyadmin', password='passwd@123')
     cursor = con.cursor()
     query = "select * from User_table where emp_id = %s"
     data = (request.args.get('id'),)
     cursor.execute(query, data)
     rows = cursor.fetchone()
-    print(rows)
+    # print(rows)
     if(rows):
         print(rows[2])
         return rows[2]
     else:
         return "New User"
 
+@app.route('/getclient',methods=['GET'])
+def getClient():
+    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams', user='phpmyadmin', password='passwd@123')
+    cursor = con.cursor()
+    query = "select client_id from oAuth where emp_id = %s"
+    data = (request.args.get('emp_id'),)
+    cursor.execute(query,data)
+    row = cursor.fetchone()
+    if(row):
+        print(row[0])
+        return row[0]
+    else:
+        return "New User"
 
 @app.route('/generatetoken', methods=['GET'])
 def generateToken():
     # con = mysql.connector.connect(host='remotemysql.com',database='cVLw2NAjNX',user='cVLw2NAjNX',password='7I3RP65o9I')
-    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in',
-                                  database='uohvams', user='phpmyadmin', password='passwd@123')
+    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams', user='phpmyadmin', password='passwd@123')
     # con = mysql.connector.connect(host='sql6.freesqldatabase.com',database='sql6438285',user='sql6438285',password='mhsxG3lpiD')
     cursor = con.cursor()
     clientid = (request.args.get('id'),)
@@ -144,8 +133,7 @@ def generateToken():
 
 @app.route('/createclient', methods=['GET'])
 def createClient():
-    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in',
-                                  database='uohvams', user='phpmyadmin', password='passwd@123')
+    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams', user='phpmyadmin', password='passwd@123')
     # con = mysql.connector.connect(host='remotemysql.com',database='cVLw2NAjNX',user='cVLw2NAjNX',password='7I3RP65o9I')
     # con = mysql.connector.connect(host='sql6.freesqldatabase.com',database='sql6438285',user='sql6438285',password='mhsxG3lpiD')
     cursor = con.cursor()
@@ -164,8 +152,7 @@ def createClient():
 @app.route('/authorize', methods=['GET'])
 def authorizeToken():
     # con = mysql.connector.connect(host='sql6.freesqldatabase.com',database='sql6438285',user='sql6438285',password='mhsxG3lpiD')
-    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in',
-                                  database='uohvams', user='phpmyadmin', password='passwd@123')
+    con = mysql.connector.connect(host='scislearn3.uohyd.ac.in', database='uohvams', user='phpmyadmin', password='passwd@123')
     # con = mysql.connector.connect(host='remotemysql.com',database='cVLw2NAjNX',user='cVLw2NAjNX',password='7I3RP65o9I')
     cursor = con.cursor()
     query = "select * from tokens where token = %s"
